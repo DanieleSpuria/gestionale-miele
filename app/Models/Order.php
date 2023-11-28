@@ -17,6 +17,10 @@ class Order extends Model
     return $this->belongsToMany(Bowl::class, 'order_bowl');
   }
 
+  public function qualities() {
+    return $this->belongsToMany(Quality::class);
+  }
+
   protected $fillable = [
     'status',
     'total',

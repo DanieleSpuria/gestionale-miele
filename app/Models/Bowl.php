@@ -9,8 +9,8 @@ class Bowl extends Model
 {
   use HasFactory;
 
-  public function quality() {
-    return $this->belongsTo(Quality::class);
+  public function qualities() {
+    return $this->belongsToMany(Quality::class);
   }
 
   public function orders() {
@@ -19,7 +19,6 @@ class Bowl extends Model
 
   protected $fillable = [
     'weight',
-    'quantity',
-    'price'
+    'quantity'
   ];
 }

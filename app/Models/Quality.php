@@ -9,8 +9,12 @@ class Quality extends Model
 {
   use HasFactory;
 
+  public function orders() {
+    return $this->belongsToMany(Order::class);
+  }
+
   public function bowls() {
-    return $this->hasMany(Bowl::class);
+    return $this->belongsToMany(Bowl::class);
   }
 
   protected $fillable = [

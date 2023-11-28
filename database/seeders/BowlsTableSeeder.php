@@ -17,8 +17,6 @@ class BowlsTableSeeder extends Seeder
       $new_bowl = new Bowl();
       $new_bowl->weight = $bowl['weight'];
       $new_bowl->quantity = $bowl['quantity'];
-      $new_bowl->price = $bowl['price'];
-      $new_bowl->quality_id = Quality::inRandomOrder()->first()->id;
       $new_bowl->save();
     }
   }

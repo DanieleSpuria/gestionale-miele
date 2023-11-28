@@ -14,10 +14,17 @@ return new class extends Migration
         ->references('id')
         ->on('orders');
 
-      $table->unsignedBigInteger(('bowl_id'));
+      $table->unsignedBigInteger('bowl_id');
       $table->foreign('bowl_id')
         ->references('id')
         ->on('bowls');
+
+      $table->unsignedBigInteger('quality_id');
+      $table->foreign('quality_id')
+        ->references('id')
+        ->on('qualities');
+
+      $table->decimal('price', 8, 2);
     });
   }
 
