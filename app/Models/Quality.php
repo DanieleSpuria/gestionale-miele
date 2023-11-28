@@ -9,6 +9,10 @@ class Quality extends Model
 {
   use HasFactory;
 
+  public function bowls() {
+    return $this->hasMany(Bowl::class);
+  }
+
   protected $fillable = [
     'name',
     'quantity'

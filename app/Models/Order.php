@@ -9,6 +9,14 @@ class Order extends Model
 {
   use HasFactory;
 
+  public function client() {
+    return $this->belongsTo(Client::class);
+  }
+
+  public function bowls() {
+    return $this->belongsToMany(Bowl::class);
+  }
+
   protected $fillable = [
     'status',
     'total',
