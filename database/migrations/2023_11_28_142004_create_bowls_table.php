@@ -12,7 +12,7 @@ return new class extends Migration
       $table->id();
       $table->decimal('weight', 8, 2);
       $table->integer('quantity')->default(0);
-      $table->decimal('price', 8, 2);
+      $table->decimal('price', 8, 2)->default(0);
       $table->timestamps();
     });
   }

@@ -14,7 +14,7 @@ class Order extends Model
   }
 
   public function bowls() {
-    return $this->belongsToMany(Bowl::class);
+    return $this->belongsToMany(Bowl::class, 'order_bowl');
   }
 
   protected $fillable = [
