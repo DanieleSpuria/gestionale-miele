@@ -10,6 +10,9 @@ return new class extends Migration
   {
     Schema::create('clients', function (Blueprint $table) {
       $table->id();
+      $table->string('name');
+      $table->string('telephone_number');
+      $table->string('address')->nullable();
       $table->timestamps();
     });
   }

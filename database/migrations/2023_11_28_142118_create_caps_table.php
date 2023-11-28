@@ -10,6 +10,8 @@ return new class extends Migration
   {
     Schema::create('caps', function (Blueprint $table) {
       $table->id();
+      $table->decimal('weight', 8, 2);
+      $table->integer('quantity')->default(0);
       $table->timestamps();
     });
   }

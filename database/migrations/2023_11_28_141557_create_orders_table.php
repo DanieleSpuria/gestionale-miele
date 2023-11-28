@@ -10,6 +10,9 @@ return new class extends Migration
   {
     Schema::create('orders', function (Blueprint $table) {
       $table->id();
+      $table->boolean('status')->default(0);
+      $table->decimal('total', 8, 2)->default(0.0);
+      $table->date('date');
       $table->timestamps();
     });
   }

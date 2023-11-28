@@ -10,6 +10,8 @@ return new class extends Migration
   {
     Schema::create('qualities', function (Blueprint $table) {
       $table->id();
+      $table->string('name');
+      $table->decimal('quantity', 8, 2)->default(0.0);
       $table->timestamps();
     });
   }
