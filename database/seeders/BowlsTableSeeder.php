@@ -14,8 +14,8 @@ class BowlsTableSeeder extends Seeder
     $bowls = config('bowls');
 
     foreach($bowls as $bowl) {
-      $new_bowl = new Bowl();
-      $new_bowl->weight = $bowl['weight'];
+      $new_bowl           = new Bowl();
+      $new_bowl->weight   = $bowl['weight'];
       $new_bowl->quantity = $bowl['quantity'];
       $new_bowl->save();
     }

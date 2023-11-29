@@ -14,7 +14,7 @@ class QualitiesTableSeeder extends Seeder
     $qualities = config('qualities');
 
     foreach($qualities as $quality) {
-      $new_quality = new Quality();
+      $new_quality           = new Quality();
       $new_quality->name     = $quality['name'];
       $new_quality->quantity = $quality['quantity'];
       $new_quality->save();

@@ -13,7 +13,7 @@ class CapsTableSeeder extends Seeder
     $caps = config('caps');
 
     foreach($caps as $cap) {
-      $new_caps = new Cap();
+      $new_caps           = new Cap();
       $new_caps->weight   = $cap['weight'];
       $new_caps->quantity = $cap['quantity'];
       $new_caps->save();
