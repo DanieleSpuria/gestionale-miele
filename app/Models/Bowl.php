@@ -14,7 +14,7 @@ class Bowl extends Model
   }
 
   public function orders() {
-    return $this->belongsToMany(Order::class, 'order_bowl');
+    return $this->belongsToMany(Order::class, 'order_bowl')->withPivot('price', 'quantity', 'quality_id');
   }
 
   protected $fillable = [

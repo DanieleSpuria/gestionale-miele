@@ -7,79 +7,79 @@ use Illuminate\Http\Request;
 
 class QualityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+      $qualities = Quality::all();
+
+      return view('app.qualities.index', compact('qualities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Quality  $quality
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function show(Quality $quality)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Quality  $quality
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
+    public function create()
+    {
+      $quality = new Quality();
+
+      $route = route('app.qualities.store');
+      $method = 'POST';
+      $btn = 'Crea';
+
+      return view('app.qualities.form', compact('quality', 'route', 'method', 'btn'));
+    }
+
+    public function store(Request $request)
+    {
+      $form_data = request()->all();
+
+      $new_quality = new Quality();
+      $new_quality->fill($form_data);
+      $new_quality->save();
+
+      return redirect()->route('app.qualities.index', $new_quality);
+    }
+
+
+
+
+
     public function edit(Quality $quality)
     {
-        //
+      $route = route('app.qualities.update', $quality);
+      $method = 'PUT';
+      $btn = 'Modifica';
+
+      return view('app.qualities.form', compact('route', 'quality', 'method', 'btn'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Quality  $quality
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Quality $quality)
     {
-        //
+      $form_data = $request->all();
+
+      $quality->update($form_data);
+
+      return redirect()->route('app.qualities.index', $quality);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Quality  $quality
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
     public function destroy(Quality $quality)
     {
-        //
+      $quality->delete();
+
+      return redirect()->route('app.qualities.index');
     }
 }

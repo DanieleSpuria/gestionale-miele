@@ -24,6 +24,7 @@ return new class extends Migration
         ->references('id')
         ->on('qualities');
 
+      $table->integer('quantity')->default(0);
       $table->decimal('price', 8, 2);
     });
   }

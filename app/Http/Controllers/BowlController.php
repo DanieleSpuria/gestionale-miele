@@ -7,79 +7,77 @@ use Illuminate\Http\Request;
 
 class BowlController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+      $bowls = Bowl::all();
+
+      return view('app.bowls.index', compact('bowls'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Bowl  $bowl
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function show(Bowl $bowl)
     {
-        //
+      //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Bowl  $bowl
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
+    public function create()
+    {
+      $bowl = new Bowl();
+      $route = route('app.bowls.store', $bowl);
+      $method = 'POST';
+      $btn = 'Crea';
+
+      return view('app.bowls.form', compact('route', 'method', 'bowl', 'btn'));
+    }
+
+    public function store(Request $request)
+    {
+      $form_data = $request->all();
+
+      $new_bowl = new Bowl();
+      $new_bowl->fill($form_data);
+      $new_bowl->save();
+
+      return redirect()->route('app.bowls.index', $new_bowl);
+    }
+
+
+
+
+
     public function edit(Bowl $bowl)
     {
-        //
+      $route = route('app.bowls.update', $bowl);
+      $method = 'PUT';
+      $btn = 'Modifica';
+
+      return view('app.bowls.form', compact('route', 'method', 'btn', 'bowl'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bowl  $bowl
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Bowl $bowl)
     {
-        //
+      $form_data = request()->all();
+
+      $bowl->update($form_data);
+
+      return redirect()->route('app.bowls.index', $bowl);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Bowl  $bowl
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
     public function destroy(Bowl $bowl)
     {
-        //
+      $bowl->delete();
+
+      return redirect()->route('app.bowls.index');
     }
 }

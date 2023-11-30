@@ -85,9 +85,13 @@
             </div>
         </nav>
 
-        <main class="">
+        <div class="d-flex">
+          @include('layouts.partials.aside-app')
+
+          <main class="d-flex p-5">
             @yield('content')
-        </main>
+          </main>
+        </div>
     </div>
 </body>
 

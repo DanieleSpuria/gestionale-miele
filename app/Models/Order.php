@@ -14,7 +14,7 @@ class Order extends Model
   }
 
   public function bowls() {
-    return $this->belongsToMany(Bowl::class, 'order_bowl');
+    return $this->belongsToMany(Bowl::class, 'order_bowl')->withPivot('price', 'quantity', 'quality_id');
   }
 
   public function qualities() {

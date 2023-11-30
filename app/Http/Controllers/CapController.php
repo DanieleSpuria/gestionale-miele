@@ -7,79 +7,78 @@ use Illuminate\Http\Request;
 
 class CapController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+      $caps = Cap::all();
+
+      return view('app.caps.index', compact('caps'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cap  $cap
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Cap $cap)
     {
-        //
+      //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cap  $cap
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
+    public function create()
+    {
+      $cap = new Cap();
+      $route = route('app.caps.store', $cap);
+      $method = 'POST';
+      $btn = 'Crea';
+
+      return view('app.caps.form', compact('route', 'method', 'btn', 'cap'));
+    }
+
+
+    public function store(Request $request)
+    {
+      $form_data = $request->all();
+
+      $new_cap = new Cap();
+      $new_cap->fill($form_data);
+      $new_cap->save();
+
+      return redirect()->route('app.caps.index', $new_cap);
+    }
+
+
+
+
+
     public function edit(Cap $cap)
     {
-        //
+      $route = route('app.caps.update', $cap);
+      $method = 'PUT';
+      $btn = 'Modifica';
+
+      return view('app.caps.form', compact('route', 'method', 'btn', 'cap'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cap  $cap
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Cap $cap)
     {
-        //
+      $form_data = $request->all();
+
+      $cap->update($form_data);
+
+      return redirect()->route('app.caps.index', $cap);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cap  $cap
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
     public function destroy(Cap $cap)
     {
-        //
+      $cap->delete();
+
+      return redirect()->route('app.bowls.index');
     }
 }

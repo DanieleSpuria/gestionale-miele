@@ -17,24 +17,28 @@ class OrdersBowlsTableSeeder extends Seeder
     foreach ($orders as $order) {
       $bowls     = [];
       $qualities = [];
+      $quantity  = 0;
 
       for ($i = 0; $i < rand(1, 6); $i++) {
-          $randomBowl    = Bowl::inRandomOrder()->pluck('id')->random();
-          $randomQuality = Quality::inRandomOrder()->pluck('id')->random();
+        $randomBowl    = Bowl::inRandomOrder()->pluck('id')->random();
+        $randomQuality = Quality::inRandomOrder()->pluck('id')->random();
+
+        if (!in_array($randomBowl, $bowls)) {
           $bowls[]       = $randomBowl;
           $qualities[]   = $randomQuality;
+        }
       }
 
       for ($i = 0; $i < count($bowls); $i++) {
-          if ($qualities[$i] != 2 && $bowls[$i] == 1) {
-            $order->bowls()->attach($bowls[$i], ['quality_id' => $qualities[$i], 'price' => 8]);
-          } else if ($qualities[$i] != 2 && $bowls[$i] == 2) {
-            $order->bowls()->attach($bowls[$i], ['quality_id' => $qualities[$i], 'price' => 4]);
-          } else if ($qualities[$i] == 2 && $bowls[$i] == 1) {
-            $order->bowls()->attach($bowls[$i], ['quality_id' => $qualities[$i], 'price' => 7]);
-          } else if ($qualities[$i] == 2 && $bowls[$i] == 2) {
-            $order->bowls()->attach($bowls[$i], ['quality_id' => $qualities[$i], 'price' => 3.5]);
-          }
+        if ($qualities[$i] != 2 && $bowls[$i] == 1) {
+          $order->bowls()->attach($bowls[$i], ['quality_id' => $qualities[$i], 'quantity' => rand(1,4), 'price' => 8]);
+        } else if ($qualities[$i] != 2 && $bowls[$i] == 2) {
+          $order->bowls()->attach($bowls[$i], ['quality_id' => $qualities[$i], 'quantity' => rand(1,4), 'price' => 4]);
+        } else if ($qualities[$i] == 2 && $bowls[$i] == 1) {
+          $order->bowls()->attach($bowls[$i], ['quality_id' => $qualities[$i], 'quantity' => rand(1,4), 'price' => 7]);
+        } else if ($qualities[$i] == 2 && $bowls[$i] == 2) {
+          $order->bowls()->attach($bowls[$i], ['quality_id' => $qualities[$i], 'quantity' => rand(1,4), 'price' => 3.5]);
+        }
       }
     }
   }

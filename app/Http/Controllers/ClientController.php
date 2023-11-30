@@ -3,83 +3,94 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Quality;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+      $clients = Client::all();
+
+      return view('app.clients.index', compact('clients'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Client  $client
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function show(Client $client)
     {
-        //
+      $qualities = Quality::all();
+      $qualities_id = [];
+      $orders = $client->orders;
+
+      foreach ($orders as $order) {
+        foreach ($order->bowls as $bowl) {
+          $qualities_id[] = $bowl->pivot->quality_id;
+        }
+      }
+
+      return view('app.clients.show', compact('client', 'qualities', 'qualities_id', 'orders'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Client  $client
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
+    public function create()
+    {
+      $client = new Client();
+      $route = route('app.clients.store', $client);
+      $method = 'POST';
+      $btn = 'Crea';
+
+      return view('app.clients.form', compact('client', 'route', 'method', 'btn'));
+    }
+
+
+    public function store(Request $request)
+    {
+      $form_data = $request->all();
+
+      $new_client = new Client();
+      $new_client->fill($form_data);
+      $new_client->save();
+
+      return redirect()->route('app.clients.index', $new_client);
+    }
+
+
+
+
+
     public function edit(Client $client)
     {
-        //
+      $route = route('app.clients.update', $client);
+      $method = 'PUT';
+      $btn = 'Modifica';
+
+      return view('app.clients.form', compact('client', 'route', 'method', 'btn'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Client  $client
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Client $client)
     {
-        //
+      $form_data = $request->all();
+
+      $client->update($form_data);
+
+      return redirect()->route('app.clients.index', $client);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Client  $client
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
     public function destroy(Client $client)
     {
-        //
+      $client->delete();
+
+      return redirect()->route('app.clients.index');
     }
 }
