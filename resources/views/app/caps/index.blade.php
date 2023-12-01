@@ -9,7 +9,7 @@
   <ul class="d-flex">
     <li>{{ $cap->weight }} kg | {{ $cap->quantity }}</li>
     <a href="{{ route('app.caps.edit', $cap) }}">Modifica</a>
-    <form action="{{ route('app.caps.destroy', $cap) }}" method="POST">
+    <form action="{{ route('app.caps.destroy', $cap) }}" method="POST" onsubmit="return confirm('Sei sicuro di voler cancellare questo taglio di tappi?')">
       @csrf
       @method('DELETE')
 

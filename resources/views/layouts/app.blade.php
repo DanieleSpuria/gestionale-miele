@@ -88,7 +88,7 @@
         <div class="d-flex">
           @include('layouts.partials.aside-app')
 
-          <main class="d-flex p-5">
+          <main class="d-flex p-5 w-100">
             @yield('content')
           </main>
         </div>

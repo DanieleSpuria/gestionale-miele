@@ -39,13 +39,14 @@ class OrderController extends Controller
       $clients = Client::all();
       $qualities = Quality::all();
       $bowls = Bowl::all();
+      $edit = false;
       $order_bowls = [];
 
       $route = route('app.orders.store', $order_bowls);
       $method = 'POST';
       $btn = 'Crea';
 
-      return view('app.orders.form', compact('order', 'clients', 'qualities', 'bowls', 'order_bowls', 'route', 'method', 'btn'));
+      return view('app.orders.form', compact('order', 'clients', 'qualities', 'bowls', 'edit', 'order_bowls', 'route', 'method', 'btn'));
     }
 
     public function store(Request $request)
@@ -100,7 +101,6 @@ class OrderController extends Controller
       $new_order->total = $total;
       $new_order->update(['total' => $total]);
 
-
       return redirect()->route('app.orders.index', $new_order);
     }
 
@@ -117,13 +117,65 @@ class OrderController extends Controller
       $route = route('app.orders.update', $order);
       $method = 'PUT';
       $btn = 'Modifica';
+      $edit = true;
 
-      return view('app.orders.form', compact('order', 'clients', 'qualities', 'bowls', 'route', 'method', 'btn'));
+      return view('app.orders.form', compact('order', 'clients', 'qualities', 'bowls', 'route', 'method', 'btn', 'edit'));
     }
 
     public function update(Request $request, Order $order)
     {
-        //
+      $form_data = $request->all();
+
+      $qualities = Quality::all();
+      $bowls = Bowl::all();
+
+      $new_order = $order;
+      $new_order->bowls()->detach();
+
+      $total = $order->total;
+      $total = 0;
+
+      dump($form_data['order_bowls']);
+
+      foreach ($form_data['order_bowls'] as $bowl) {
+        $bowl_id = $bowl['weight'];
+        $quality_id = $bowl['quality'];
+        $quantity = $bowl['quantity'];
+
+        if ($quality_id == 2 && $bowl_id == 1) {
+          $price = 7;
+        } else if ($quality_id == 2 && $bowl_id == 2) {
+          $price = 3.5;
+        } else if ($quality_id != 2 && $bowl_id == 1) {
+          $price = 8;
+        } else if ($quality_id != 2 && $bowl_id == 2) {
+          $price = 4;
+        }
+
+        $total += $price * $quantity;
+
+        $bowls_weight = 0;
+
+        foreach ($bowls as $bowl) {
+          if ($bowl->id == $bowl_id) {
+            $bowls_weight = $bowl->weight * $quantity;
+          }
+        }
+
+        foreach ($qualities as $quality) {
+          if ($quality->id == $quality_id) {
+            $quality_quantity = $quality->quantity;
+            $quality->update(['quantity' => $quality_quantity -$bowls_weight]);
+          }
+        }
+
+        $new_order->bowls()->attach($bowl_id, ['quality_id' => $quality_id, 'quantity' => $quantity, 'price' => $price]);
+      }
+
+      $new_order->total = $total;
+      $new_order->update(['total' => $total]);
+
+      return redirect()->route('app.orders.index', $new_order);
     }
 
 
@@ -132,8 +184,8 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
-      // $order->delete();
+      $order->delete();
 
-      // return redirect()->route('app.clients.index');
+      return redirect()->route('app.orders.index');
     }
 }

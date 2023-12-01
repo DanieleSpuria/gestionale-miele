@@ -10,7 +10,7 @@
     <li>{{ $client->firstName }} {{ $client->lastName }} | {{ $client->address }} | {{ $client->telephone_number }}</li>
     <a href="{{ route('app.clients.show', $client) }}">Vedi</a>
     <a href="{{ route('app.clients.edit', $client) }}">Modifica</a>
-    <form action="{{ route('app.clients.destroy', $client) }}" method="POST">
+    <form action="{{ route('app.clients.destroy', $client) }}" method="POST" onsubmit="return confirm('Sei sicuro di voler cancellare il cliente?')">
       @csrf
       @method('DELETE')
 

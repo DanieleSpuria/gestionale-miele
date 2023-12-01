@@ -4,9 +4,9 @@
 <div>
   <ul>
     <li>Stato: @if ($order->status) Chiuso @else Aperto @endif</li>
-    <li>Cliente: {{ $order->client->firstName }} {{ $order->client->lastName }}</li>
-    <li>Indirizzo: {{ $order->client->address }}</li>
-    <li>Numero: {{ $order->client->telephone_number }}</li>
+    <li>Cliente: {{ $order->client?->firstName }} {{ $order->client?->lastName }}</li>
+    <li>Indirizzo: {{ $order->client?->address }}</li>
+    <li>Numero: {{ $order->client?->telephone_number }}</li>
     <li>Totale: {{ $order->total }} &euro;</li>
     <li>Data: {{ $order->date }}</li>
   </ul>

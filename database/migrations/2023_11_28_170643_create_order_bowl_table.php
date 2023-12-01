@@ -12,17 +12,20 @@ return new class extends Migration
       $table->unsignedBigInteger('order_id');
       $table->foreign('order_id')
         ->references('id')
-        ->on('orders');
+        ->on('orders')
+        ->cascadeOnDelete();
 
       $table->unsignedBigInteger('bowl_id');
       $table->foreign('bowl_id')
         ->references('id')
-        ->on('bowls');
+        ->on('bowls')
+        ->cascadeOnDelete();
 
       $table->unsignedBigInteger('quality_id');
       $table->foreign('quality_id')
         ->references('id')
-        ->on('qualities');
+        ->on('qualities')
+        ->cascadeOnDelete();
 
       $table->integer('quantity')->default(0);
       $table->decimal('price', 8, 2);

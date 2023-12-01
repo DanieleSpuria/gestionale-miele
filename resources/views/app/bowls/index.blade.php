@@ -9,7 +9,7 @@
   <ul class="d-flex">
     <li>{{ $bowl->weight }} kg | {{ $bowl->quantity }}</li>
     <a href="{{ route('app.bowls.edit', $bowl) }}">Modifica</a>
-    <form action="{{ route('app.bowls.destroy', $bowl) }}" method="POST">
+    <form action="{{ route('app.bowls.destroy', $bowl) }}" method="POST" onsubmit="return confirm('Sei sicuro di voler cancellare questo taglio di bocce?')">
       @csrf
       @method('DELETE')
 
